@@ -93,21 +93,6 @@ Grid.prototype.holes = function () {
     return count;
 };
 
-Grid.prototype.blockades = function () {
-    var count = 0;
-    for (var c = 0; c < this.columns; c++) {
-        var hole = false;
-        for (var r = this.rows - 1; r >= 0; r--) {
-            if (this.cells[r][c] == 0) {
-                hole = true;
-            } else if (this.cells[r][c] != 0 && hole) {
-                count++;
-            }
-        }
-    }
-    return count;
-};
-
 Grid.prototype.aggregateHeight = function () {
     var total = 0;
     for (var c = 0; c < this.columns; c++) {
