@@ -62,12 +62,6 @@ Grid.prototype.exceeded = function () {
     return !this.isEmptyRow(0) || !this.isEmptyRow(1);
 };
 
-Grid.prototype.height = function () {
-    var r = 0;
-    for (; r < this.rows && this.isEmptyRow(r); r++);
-    return this.rows - r;
-};
-
 Grid.prototype.lines = function () {
     var count = 0;
     for (var r = 0; r < this.rows; r++) {
