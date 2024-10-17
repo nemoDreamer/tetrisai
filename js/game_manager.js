@@ -15,6 +15,11 @@ function GameManager() {
         linesWeight: 0.760666,
         holesWeight: 0.35663,
         bumpinessWeight: 0.184483,
+        // // NEW:
+        // heightWeight: 0.7725600364547452,
+        // linesWeight: 0.43886974296418085,
+        // holesWeight: 0.42176042649199585,
+        // bumpinessWeight: 0.1807276443405559,
     });
     var workingPieces = [null, rpg.nextPiece()];
     var workingPiece = null;
