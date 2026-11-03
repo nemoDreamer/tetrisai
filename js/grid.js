@@ -121,6 +121,19 @@ Grid.prototype.addPiece = function (piece) {
     }
 };
 
+// Undo `addPiece` (piece must be at the same position, with no lines cleared since)
+Grid.prototype.removePiece = function (piece) {
+    for (var r = 0; r < piece.cells.length; r++) {
+        for (var c = 0; c < piece.cells[r].length; c++) {
+            var _r = piece.row + r;
+            var _c = piece.column + c;
+            if (piece.cells[r][c] != 0 && _r >= 0) {
+                this.cells[_r][_c] = 0;
+            }
+        }
+    }
+};
+
 Grid.prototype.valid = function (piece) {
     for (var r = 0; r < piece.cells.length; r++) {
         for (var c = 0; c < piece.cells[r].length; c++) {

@@ -29,13 +29,18 @@ AI.prototype._best = function (grid, workingPieces, workingPieceIndex, existingL
             var _pieceSet = _piece.clone();
             while (_pieceSet.moveDown(grid));
 
-            var _grid = grid.clone();
-            _grid.addPiece(_pieceSet);
+            // bake in place (undone below via `removePiece`)
+            grid.addPiece(_pieceSet);
 
             var score = null;
-            var lines = _grid.lines();
+            var lines = grid.lines();
             // clear before scoring/recursing, so every level sees the same post-clear board
-            if (lines) _grid.clearLines();
+            // (clearing can't be undone by `removePiece`, so only clone in this rare case)
+            var _grid = grid;
+            if (lines) {
+                _grid = grid.clone();
+                _grid.clearLines();
+            }
             if (workingPieceIndex == workingPieces.length - 1) {
                 score =
                     -this.heightWeight * _grid.aggregateHeight() +
@@ -45,6 +50,8 @@ AI.prototype._best = function (grid, workingPieces, workingPieceIndex, existingL
             } else {
                 score = this._best(_grid, workingPieces, workingPieceIndex + 1, lines).score;
             }
+
+            grid.removePiece(_pieceSet);
 
             if (score > bestScore || bestScore == null) {
                 bestScore = score;
@@ -59,5 +66,6 @@ AI.prototype._best = function (grid, workingPieces, workingPieceIndex, existingL
 };
 
 AI.prototype.best = function (grid, workingPieces) {
-    return this._best(grid, workingPieces, 0).piece;
+    // `_best` bakes candidates into the grid in place -> work on a copy
+    return this._best(grid.clone(), workingPieces, 0).piece;
 };
