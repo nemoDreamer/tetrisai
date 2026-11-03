@@ -34,6 +34,8 @@ AI.prototype._best = function (grid, workingPieces, workingPieceIndex, existingL
 
             var score = null;
             var lines = _grid.lines();
+            // clear before scoring/recursing, so every level sees the same post-clear board
+            if (lines) _grid.clearLines();
             if (workingPieceIndex == workingPieces.length - 1) {
                 score =
                     -this.heightWeight * _grid.aggregateHeight() +
@@ -41,7 +43,6 @@ AI.prototype._best = function (grid, workingPieces, workingPieceIndex, existingL
                     this.holesWeight * _grid.holes() -
                     this.bumpinessWeight * _grid.bumpiness();
             } else {
-                _grid.clearLines();
                 score = this._best(_grid, workingPieces, workingPieceIndex + 1, lines).score;
             }
 
